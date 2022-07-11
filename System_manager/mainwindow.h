@@ -1,15 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QString>
 #include <QMainWindow>
-#include <iostream>
 #include <QSysInfo>
 #include <QStorageInfo>
 #include <QNetworkInterface>
 #include <QSettings>
 #include <QProcess>
 #include <QtDebug>
+#include <QTimer>
 
 using namespace std;
 
@@ -29,6 +28,7 @@ public:
     void networkInfo();
     void biosInfo();
     void cpuIfo();
+    void update();
 
 private:
     Ui::MainWindow *ui;
@@ -37,6 +37,7 @@ private:
     QNetworkAddressEntry *network;
     QSettings *settings;
     QProcess *process_system;
+    QTimer *timer;
 
 };
 #endif // MAINWINDOW_H

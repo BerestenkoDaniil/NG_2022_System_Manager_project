@@ -10,12 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     process_system = new QProcess();
+    timer = new QTimer();
+    update();
+    connect(timer,&QTimer::timeout,this,&MainWindow::update);
+    timer->start(1000);
     //connect(ui->pb_showinfo,&QPushButton::clicked, this, MainWindow::storageInfo);
-    storageInfo();
-    sysInfo();
-    networkInfo();
-    biosInfo();
-    cpuIfo();
     //connect(ui->te_input, &QTextEdit::,this, &MainWindow::storageInfo);
     //moveCursor
 }
@@ -134,4 +133,14 @@ void MainWindow::cpuIfo()
             system_output = cmd3->readAllStandardOutput();
             qDebug() << "GPU RAM : "  << system_output;
         }
+}
+
+void MainWindow::update()
+{
+    //call everything
+    storageInfo();
+    sysInfo();
+    networkInfo();
+    biosInfo();
+    cpuIfo();
 }

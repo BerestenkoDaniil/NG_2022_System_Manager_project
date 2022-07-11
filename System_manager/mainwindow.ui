@@ -14,127 +14,269 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>40</y>
-      <width>381</width>
-      <height>193</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLineEdit" name="le_sname"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_syst"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_ssize"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_assize"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_11"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_12"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="pb_showinfo">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>400</y>
-      <width>93</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Info</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>40</y>
-      <width>156</width>
-      <height>193</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLineEdit" name="le_name"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_systype"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_size"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="le_asize"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_6"/>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuCPU">
-    <property name="title">
-     <string>CPU</string>
-    </property>
-    <addaction name="separator"/>
-   </widget>
-   <widget class="QMenu" name="menuProcessor">
-    <property name="title">
-     <string>GPU</string>
-    </property>
-    <addaction name="separator"/>
-   </widget>
-   <widget class="QMenu" name="menuMemory">
-    <property name="title">
-     <string>Memory</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuComponents">
-    <property name="title">
-     <string>Components</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuBasic_info">
-    <property name="title">
-     <string>Basic info</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuWindows">
-    <property name="title">
-     <string>Windows</string>
-    </property>
-   </widget>
-   <addaction name="menuCPU"/>
-   <addaction name="menuProcessor"/>
-   <addaction name="menuMemory"/>
-   <addaction name="menuComponents"/>
-   <addaction name="menuBasic_info"/>
-   <addaction name="menuWindows"/>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="CPU_tab">
+       <attribute name="title">
+        <string>CPU</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>10</y>
+          <width>381</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="le_sname"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_syst"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_ssize"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_assize"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_11"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_12"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>156</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLineEdit" name="le_name"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_systype"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_size"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_asize"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_6"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="pb_showinfo">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>370</y>
+          <width>93</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Info</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="GPU_tab">
+       <attribute name="title">
+        <string>GPU</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>10</y>
+          <width>381</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="le_sname_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_syst_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_ssize_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_assize_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_13"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_14"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>156</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QLineEdit" name="le_name_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_systype_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_size_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_asize_2"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_4"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_7"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="pb_showinfo_2">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>370</y>
+          <width>93</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Info</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="STORAGE_tab">
+       <attribute name="title">
+        <string>STORAGE</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>10</y>
+          <width>381</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLineEdit" name="le_sname_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_syst_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_ssize_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_assize_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_15"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_16"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_6">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>156</width>
+          <height>250</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLineEdit" name="le_name_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_systype_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_size_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_asize_3"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_5"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_8"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="pb_showinfo_3">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>370</y>
+          <width>93</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Info</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="RAM_tab">
+       <attribute name="title">
+        <string>RAM</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="BasicInfo_tab">
+       <attribute name="title">
+        <string>BASIC INFO</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="USER_tab">
+       <attribute name="title">
+        <string>USER</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="NETWORK_tab">
+       <attribute name="title">
+        <string>NETWORK</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
