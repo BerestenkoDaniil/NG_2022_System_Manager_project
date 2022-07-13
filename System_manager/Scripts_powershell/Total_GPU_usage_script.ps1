@@ -1,0 +1,2 @@
+$GpuUseTotal = (((Get-Counter "\GPU Engine(*engtype_3D)\Utilization Percentage").CounterSamples | where CookedValue).CookedValue | measure -sum).sum
+    Write-Output "Total GPU Engine Usage: $([math]::Round($GpuUseTotal,2))%"
