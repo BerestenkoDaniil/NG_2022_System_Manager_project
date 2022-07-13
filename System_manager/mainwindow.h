@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QtDebug>
 #include <QTimer>
+#include <QFile>
 
 using namespace std;
 
@@ -27,8 +28,12 @@ public:
     void sysInfo();
     void networkInfo();
     void biosInfo();
-    void cpuIfo();
+    void cpuInfo();
+    void ramInfo();
+    void gpuInfo();
     void update();
+    void currentUsage();
+    void winLicence();
 
 private:
     Ui::MainWindow *ui;
