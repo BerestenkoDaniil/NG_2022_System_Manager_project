@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    process_system = new QProcess();
+    cmd = new QProcess();
     timer = new QTimer();
     update();
     connect(timer,&QTimer::timeout,this,&MainWindow::update);
@@ -31,27 +31,49 @@ void MainWindow::storageInfo()
     ui->le_systype->setText("System Type");
     ui->le_size->setText("Storage size");
     ui->le_asize->setText("Avaible size");
-     QStorageInfo storage = QStorageInfo::root();
+    QStorageInfo storage = QStorageInfo::root();
 
-     qDebug() << storage.rootPath();
-     if (storage.isReadOnly())
-              qDebug() << "isReadOnly:" << storage.isReadOnly();
-     ui->le_sname->setText(storage.rootPath());
-     ui->le_syst->setText(storage.fileSystemType());
-     ui->le_ssize->setText(QString::number(storage.bytesTotal()/1000000000)+"GB");
-     ui->le_assize->setText(QString::number(storage.bytesAvailable()/1000000000)+"GB");
-     qDebug() << "name:" << storage.name();
-     qDebug() << "fileSystemType:" << storage.fileSystemType();
-     qDebug() << "size:" << storage.bytesTotal()/1000000000  << "GB";
-     qDebug() << "availableSize:" << storage.bytesAvailable()/1000000000  << "GB";
-     QSettings m("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-                 QSettings::NativeFormat);
-     QStringList ak = m.childGroups();
-     qDebug() << ak;
-     m.beginGroup("Autodesk Maya 2014");
-     QString path = m.value("UninstallPath").toString();
-     m.endGroup();
+    qDebug() << storage.rootPath();
+    if (storage.isReadOnly())
+             qDebug() << "isReadOnly:" << storage.isReadOnly();
+    ui->le_sname->setText(storage.rootPath());
+    ui->le_syst->setText(storage.fileSystemType());
+    ui->le_ssize->setText(QString::number(storage.bytesTotal()/1000000000)+"GB");
+    ui->le_assize->setText(QString::number(storage.bytesAvailable()/1000000000)+"GB");
+    qDebug() << "name:" << storage.name();
+    qDebug() << "fileSystemType:" << storage.fileSystemType();
+    qDebug() << "size:" << storage.bytesTotal()/1000000000  << "GB";
+    qDebug() << "availableSize:" << storage.bytesAvailable()/1000000000  << "GB";
+}
 
+void MainWindow::installedSoftware_list()
+{
+    QString programs;
+    QString script;
+    QString path = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/Storage_Info.ps1";
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    while (!file.atEnd()) {
+        script.append(file.readLine());
+    }
+    cmd->start("powershell",script.split(' '));
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    programs = cmd->readAllStandardOutput();
+    //programs = programs;
+    //Storage = Storage.remove(0,Storage.indexOf(":")+2).remove(Storage.indexOf("\r"),Storage.length());
+    programs = programs.remove(0,25).remove(programs.length()-30,programs.length());
+    QStringList prog = programs.split('\n');
+    for(int i = 0;i < prog.length();i++){
+        if(prog[i].compare(" - ") == 0){
+            prog.remove(i);
+            i--;
+        }
+    }
+    ui->lw_programs->addItems(prog);
+    //qDebug() << "Test "<< prog;
 }
 
 void MainWindow::sysInfo()
@@ -99,7 +121,6 @@ void MainWindow::biosInfo()
 void MainWindow::cpuInfo()
 {
     QString system_output;
-    QProcess *cmd = new QProcess();
     QString test;
     //system_output = system_output.remove(0,system_output.indexOf("\n")+1)
     //                             .remove(system_output.indexOf("\r"),system_output.length());
@@ -128,7 +149,6 @@ void MainWindow::gpuInfo()
     QStringList gpu_RAM;
     QString system_output;
     QString test;
-    QProcess *cmd = new QProcess();
     QStringList gpuname;
     gpuname <<"PATH" << "Win32_videocontroller" << "get" << "VideoProcessor";
     cmd->start("wmic",gpuname);
@@ -162,24 +182,14 @@ void MainWindow::update()
     //biosInfo();
     //cpuInfo();
     //gpuInfo();
-    //currentUsage();
+    //currentCPU_Usage();
+    installedSoftware_list();
 }
 
-void MainWindow::currentUsage()
+void MainWindow::currentRAM_Usage()
 {
-    QProcess *command = new QProcess();
-    QString CPU;
     QString RAM;
-    QString GPU;
     QString script;
-    QString script1;
-    QStringList args = QString("cpu get loadpercentage").split(' ');
-    command->start("wmic",args);
-    command->waitForStarted();
-    command->waitForFinished();
-    CPU = command->readAllStandardOutput();
-    CPU = CPU.remove(0,CPU.indexOf("\n")+1).remove(CPU.indexOf(" "),CPU.length());
-    qDebug() << "Current usage CPU" << CPU;
     QString path = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/RAM_usage_in_percentage.ps1";
     QFile file(path);
      if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -188,31 +198,48 @@ void MainWindow::currentUsage()
      while (!file.atEnd()) {
          script.append(file.readLine());
     }
-    command->start("powershell",script.split(' '));
-    command->waitForStarted();
-    command->waitForFinished();
-    RAM = command->readAllStandardOutput();
+    cmd->start("powershell",script.split(' '));
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    RAM = cmd->readAllStandardOutput();
     RAM = RAM.remove(0,RAM.indexOf(":")+2).remove(RAM.indexOf(","),RAM.length());
     qDebug() << "test" << RAM;
-    QString path1 = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/Total_GPU_usage_script.ps1";
-    QFile file1(path1);
-     if (!file1.open(QIODevice::ReadOnly | QIODevice::Text))
+}
+
+void MainWindow::currentGPU_Usage()
+{
+    QString GPU;
+    QString script;
+    QString path = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/Total_GPU_usage_script.ps1";
+    QFile file(path);
+     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
          return;
 
-     while (!file1.atEnd()) {
-         script1.append(file1.readLine());
+     while (!file.atEnd()) {
+         script.append(file.readLine());
     }
-     command->start("powershell",script1.split(' '));
-     command->waitForStarted();
-     command->waitForFinished();
-     GPU = command->readAllStandardOutput();
+     cmd->start("powershell",script.split(' '));
+     cmd->waitForStarted();
+     cmd->waitForFinished();
+     GPU = cmd->readAllStandardOutput();
      GPU = GPU.remove(0,GPU.indexOf(":")+2).remove(GPU.indexOf("\r"),GPU.length());
      qDebug() << "Test "<< GPU;
 }
 
+void MainWindow::currentCPU_Usage()
+{
+    QString CPU;
+    QStringList args = QString("cpu get loadpercentage").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    CPU = cmd->readAllStandardOutput();
+    CPU = CPU.remove(0,CPU.indexOf("\n")+1).remove(CPU.indexOf(" "),CPU.length());
+    qDebug() << "Current usage CPU" << CPU;
+}
+
 void MainWindow::winLicence()
 {
-    QProcess *cmd = new QProcess();
     QStringList args = QString("slmgr.vbs /dlv").split(' ');
     cmd->start("powershell",args);
     cmd->waitForStarted();

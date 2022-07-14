@@ -97,6 +97,19 @@
          <string>Show Info</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>32</x>
+          <y>290</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="GPU_tab">
        <attribute name="title">
@@ -268,6 +281,19 @@
        <attribute name="title">
         <string>USER</string>
        </attribute>
+       <widget class="QListWidget" name="lw_programs">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>561</width>
+          <height>371</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="NETWORK_tab">
        <attribute name="title">
