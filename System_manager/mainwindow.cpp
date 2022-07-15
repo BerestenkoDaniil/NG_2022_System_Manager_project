@@ -14,10 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     update();
     connect(timer,&QTimer::timeout,this,&MainWindow::update);
     connect(ui->pb_showinfo, &QPushButton::clicked,this,&MainWindow::winLicence);
+    ui->le_name->isReadOnly();
     //timer->start(1000);
     //connect(ui->pb_showinfo,&QPushButton::clicked, this, MainWindow::storageInfo);
     //connect(ui->te_input, &QTextEdit::,this, &MainWindow::storageInfo);
     //moveCursor
+    //cpuCoresNum();
 }
 
 MainWindow::~MainWindow()
@@ -32,7 +34,6 @@ void MainWindow::storageInfo()
     ui->le_size->setText("Storage size");
     ui->le_asize->setText("Avaible size");
     QStorageInfo storage = QStorageInfo::root();
-
     qDebug() << storage.rootPath();
     if (storage.isReadOnly())
              qDebug() << "isReadOnly:" << storage.isReadOnly();
@@ -54,7 +55,6 @@ void MainWindow::installedSoftware_list()
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
-
     while (!file.atEnd()) {
         script.append(file.readLine());
     }
@@ -62,8 +62,6 @@ void MainWindow::installedSoftware_list()
     cmd->waitForStarted();
     cmd->waitForFinished();
     programs = cmd->readAllStandardOutput();
-    //programs = programs;
-    //Storage = Storage.remove(0,Storage.indexOf(":")+2).remove(Storage.indexOf("\r"),Storage.length());
     programs = programs.remove(0,25).remove(programs.length()-30,programs.length());
     QStringList prog = programs.split('\n');
     for(int i = 0;i < prog.length();i++){
@@ -73,7 +71,6 @@ void MainWindow::installedSoftware_list()
         }
     }
     ui->lw_programs->addItems(prog);
-    //qDebug() << "Test "<< prog;
 }
 
 void MainWindow::sysInfo()
@@ -244,4 +241,158 @@ void MainWindow::winLicence()
     cmd->start("powershell",args);
     cmd->waitForStarted();
     cmd->waitForFinished();
+}
+
+void MainWindow::cpuCoresNum()
+{
+    QString cores;
+    QStringList args = QString("cpu get numberofcores").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    cores = cmd->readAllStandardOutput();
+    qDebug() << cores;
+}
+
+void MainWindow::cpuSocket()
+{
+    QString socket;
+    QStringList args = QString("cpu get SocketDesignation").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    socket = cmd->readAllStandardOutput();
+    qDebug() << socket;
+}
+
+void MainWindow::cpuThreadcount()
+{
+    QString thread;
+    QStringList args = QString("cpu get ThreadCount").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    thread = cmd->readAllStandardOutput();
+    qDebug() << thread;
+}
+
+void MainWindow::cpuID()
+{
+    QString id;
+    QStringList args = QString("cpu get ThreadCount").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    id = cmd->readAllStandardOutput();
+    qDebug() << id;
+}
+
+void MainWindow::gpuDriverver()
+{
+    QString driver_ver;
+    QStringList args = QString("path win32_VideoController get DriverVersion").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    driver_ver = cmd->readAllStandardOutput();
+    qDebug() << driver_ver;
+}
+
+void MainWindow::gpuCHR()
+{
+    QString CHR;
+    QStringList args = QString("PATH Win32_videocontroller get CurrentHorizontalResolution").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    CHR = cmd->readAllStandardOutput();
+    qDebug() << CHR;
+}
+
+void MainWindow::gpuCVR()
+{
+    QString CVR;
+    QStringList args = QString("PATH Win32_videocontroller get CurrentVerticalResolution").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    CVR = cmd->readAllStandardOutput();
+    qDebug() << CVR;
+}
+
+void MainWindow::gpuRefreshrate()
+{
+    QString rate;
+    QStringList args = QString("PATH Win32_videocontroller get CurrentRefreshRate").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    rate = cmd->readAllStandardOutput();
+    qDebug() << rate;
+}
+
+void MainWindow::gpuMRR()
+{
+    QString m_rate;
+    QStringList args = QString("PATH Win32_videocontroller get MaxRefreshRate").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    m_rate = cmd->readAllStandardOutput();
+    qDebug() << m_rate;
+}
+
+void MainWindow::gpuDACT()
+{
+    QString dact;
+    QStringList args = QString("PATH Win32_videocontroller get AdapterDACType").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    dact = cmd->readAllStandardOutput();
+    qDebug() << dact;
+}
+
+void MainWindow::ramCapacity()
+{
+    QString capacity;
+    QStringList args = QString("MEMORYCHIP get Capacity").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    capacity = cmd->readAllStandardOutput();
+    qDebug() << capacity;
+}
+
+void MainWindow::ramSpeed()
+{
+    QString speed;
+    QStringList args = QString("MEMORYCHIP get Speed").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    speed = cmd->readAllStandardOutput();
+    qDebug() << speed;
+}
+
+void MainWindow::ramManufecturer()
+{
+    QString manufacturer;
+    QStringList args = QString("MEMORYCHIP get Manufacturer").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    manufacturer = cmd->readAllStandardOutput();
+    qDebug() << manufacturer;
+}
+
+void MainWindow::ramVoltage()
+{
+    QString voltage;
+    QStringList args = QString("MEMORYCHIP get Manufacturer").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    voltage = cmd->readAllStandardOutput();
+    qDebug() << voltage;
 }

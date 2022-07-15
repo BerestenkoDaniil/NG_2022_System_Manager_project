@@ -38,6 +38,22 @@ public:
     void currentGPU_Usage();
     void winLicence();
 
+    void cpuCoresNum();
+    void cpuSocket();
+    void cpuThreadcount();
+    void cpuID();
+    void gpuDriverver();
+    void gpuCHR();
+    void gpuCVR();
+    void gpuRefreshrate();
+    void gpuMRR();
+    void gpuDACT();
+    void ramCapacity();
+    void ramSpeed();
+    void ramManufecturer();
+    void ramVoltage();
+
+
 private:
     Ui::MainWindow *ui;
     QStorageInfo *storage;
