@@ -20,6 +20,38 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(ui->te_input, &QTextEdit::,this, &MainWindow::storageInfo);
     //moveCursor
     //cpuCoresNum();
+    //storageInfo();
+    //installedSoftware_list();
+    //sysInfo();
+    //networkInfo();
+    //biosInfo();
+    //cpuInfo();
+    //ramInfo();
+    //gpuInfo();
+    //update();
+    //currentCPU_Usage();
+    //currentRAM_Usage();
+    //currentGPU_Usage();
+    //winLicence();
+    cpuCoresNum();
+    cpuSocket();
+    cpuThreadcount();
+    cpuID();
+    gpuDriverver();
+    gpuCHR();
+    gpuCVR();
+    gpuRefreshrate();
+    gpuMRR();
+    gpuDACT();
+    ramCapacity();
+    ramSpeed();
+    ramManufecturer();
+    ramVoltage();
+    ramPostion();
+    motherboardManuf();
+    motherboardProduct();
+    motherbordVersion();
+    motherboardSerialnum();
 }
 
 MainWindow::~MainWindow()
@@ -251,6 +283,7 @@ void MainWindow::cpuCoresNum()
     cmd->waitForStarted();
     cmd->waitForFinished();
     cores = cmd->readAllStandardOutput();
+    cores = cores.remove(0,cores.indexOf("\n")+1).remove(cores.indexOf(" "),cores.length());
     qDebug() << cores;
 }
 
@@ -262,6 +295,7 @@ void MainWindow::cpuSocket()
     cmd->waitForStarted();
     cmd->waitForFinished();
     socket = cmd->readAllStandardOutput();
+    socket = socket.remove(0,socket.indexOf("\n")+1).remove(socket.indexOf(" "),socket.length());
     qDebug() << socket;
 }
 
@@ -273,17 +307,19 @@ void MainWindow::cpuThreadcount()
     cmd->waitForStarted();
     cmd->waitForFinished();
     thread = cmd->readAllStandardOutput();
+    thread = thread.remove(0,thread.indexOf("\n")+1).remove(thread.indexOf(" "),thread.length());
     qDebug() << thread;
 }
 
 void MainWindow::cpuID()
 {
     QString id;
-    QStringList args = QString("cpu get ThreadCount").split(' ');
+    QStringList args = QString("cpu get ProcessorID").split(' ');
     cmd->start("wmic",args);
     cmd->waitForStarted();
     cmd->waitForFinished();
     id = cmd->readAllStandardOutput();
+    id = id.remove(0,id.indexOf("\n")+1).remove(id.indexOf(" "),id.length());
     qDebug() << id;
 }
 
@@ -306,6 +342,7 @@ void MainWindow::gpuCHR()
     cmd->waitForStarted();
     cmd->waitForFinished();
     CHR = cmd->readAllStandardOutput();
+    CHR = CHR.remove(0,CHR.indexOf("\n")+1).remove(CHR.indexOf(" "),CHR.length());
     qDebug() << CHR;
 }
 
@@ -317,6 +354,7 @@ void MainWindow::gpuCVR()
     cmd->waitForStarted();
     cmd->waitForFinished();
     CVR = cmd->readAllStandardOutput();
+    CVR = CVR.remove(0,CVR.indexOf("\n")+1).remove(CVR.indexOf(" "),CVR.length());
     qDebug() << CVR;
 }
 
@@ -328,6 +366,7 @@ void MainWindow::gpuRefreshrate()
     cmd->waitForStarted();
     cmd->waitForFinished();
     rate = cmd->readAllStandardOutput();
+    rate = rate.remove(0,rate.indexOf("\n")+1).remove(rate.indexOf(" "),rate.length());
     qDebug() << rate;
 }
 
@@ -339,6 +378,7 @@ void MainWindow::gpuMRR()
     cmd->waitForStarted();
     cmd->waitForFinished();
     m_rate = cmd->readAllStandardOutput();
+    m_rate = m_rate.remove(0,m_rate.indexOf("\n")+1).remove(m_rate.indexOf(" "),m_rate.length());
     qDebug() << m_rate;
 }
 
@@ -350,7 +390,12 @@ void MainWindow::gpuDACT()
     cmd->waitForStarted();
     cmd->waitForFinished();
     dact = cmd->readAllStandardOutput();
-    qDebug() << dact;
+    QStringList dac = dact.split('\n');
+    for(int i = 0;i < dac.length();i++){
+        dac[i] = dac[i].remove(0,dac.indexOf("\n")+1).remove(dac.indexOf(" "),dac.length());
+        i++;
+    }
+    qDebug() << dac;
 }
 
 void MainWindow::ramCapacity()
@@ -361,6 +406,7 @@ void MainWindow::ramCapacity()
     cmd->waitForStarted();
     cmd->waitForFinished();
     capacity = cmd->readAllStandardOutput();
+    capacity = capacity.remove(0,capacity.indexOf("\n")+1).remove(capacity.indexOf(" "),capacity.length());
     qDebug() << capacity;
 }
 
@@ -372,6 +418,7 @@ void MainWindow::ramSpeed()
     cmd->waitForStarted();
     cmd->waitForFinished();
     speed = cmd->readAllStandardOutput();
+    speed = speed.remove(0,speed.indexOf("\n")+1).remove(speed.indexOf(" "),speed.length());
     qDebug() << speed;
 }
 
@@ -383,16 +430,78 @@ void MainWindow::ramManufecturer()
     cmd->waitForStarted();
     cmd->waitForFinished();
     manufacturer = cmd->readAllStandardOutput();
+    manufacturer = manufacturer.remove(0,manufacturer.indexOf("\n")+1).remove(manufacturer.indexOf("\r"),manufacturer.length());
     qDebug() << manufacturer;
 }
 
 void MainWindow::ramVoltage()
 {
     QString voltage;
-    QStringList args = QString("MEMORYCHIP get Manufacturer").split(' ');
+    QStringList args = QString("MEMORYCHIP get MaxVoltage").split(' ');
     cmd->start("wmic",args);
     cmd->waitForStarted();
     cmd->waitForFinished();
     voltage = cmd->readAllStandardOutput();
+    voltage = voltage.remove(0,voltage.indexOf("\n")+1).remove(voltage.indexOf(" "),voltage.length());
     qDebug() << voltage;
+}
+
+void MainWindow::ramPostion()
+{
+    QString slot;
+    QStringList args = QString("MEMORYCHIP get BankLabel").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    slot = cmd->readAllStandardOutput();
+    slot = slot.remove(0,slot.indexOf("\n")+1).remove(slot.indexOf("\r"),slot.length());
+    qDebug() << slot;
+}
+
+void MainWindow::motherboardManuf()
+{
+    QString manuf;
+    QStringList args = QString("baseboard get Manufacturer").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    manuf = cmd->readAllStandardOutput();
+    manuf = manuf.remove(0,manuf.indexOf("\n")+1).remove(manuf.indexOf(" "),manuf.length());
+    qDebug() << manuf;
+}
+
+void MainWindow::motherboardProduct()
+{
+    QString prod;
+    QStringList args = QString("baseboard get product").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    prod = cmd->readAllStandardOutput();
+    prod = prod.remove(0,prod.indexOf("\n")+1).remove(prod.indexOf(" "),prod.length());
+    qDebug() << prod;
+}
+
+void MainWindow::motherbordVersion()
+{
+    QString version;
+    QStringList args = QString("baseboard get version").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    version = cmd->readAllStandardOutput();
+    version = version.remove(0,version.indexOf("\n")+1).remove(version.indexOf(" "),version.length());
+    qDebug() << version;
+}
+
+void MainWindow::motherboardSerialnum()
+{
+    QString serial_num;
+    QStringList args = QString("baseboard get serialnumber").split(' ');
+    cmd->start("wmic",args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    serial_num = cmd->readAllStandardOutput();
+    serial_num = serial_num.remove(0,serial_num.indexOf("\n")+1).remove(serial_num.indexOf(" "),serial_num.length());
+    qDebug() << serial_num;
 }

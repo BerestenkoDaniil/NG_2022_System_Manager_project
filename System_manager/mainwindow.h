@@ -37,7 +37,6 @@ public:
     void currentRAM_Usage();
     void currentGPU_Usage();
     void winLicence();
-
     void cpuCoresNum();
     void cpuSocket();
     void cpuThreadcount();
@@ -52,7 +51,11 @@ public:
     void ramSpeed();
     void ramManufecturer();
     void ramVoltage();
-
+    void ramPostion();
+    void motherboardManuf();
+    void motherboardProduct();
+    void motherbordVersion();
+    void motherboardSerialnum();
 
 private:
     Ui::MainWindow *ui;
