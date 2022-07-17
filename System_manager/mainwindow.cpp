@@ -9,49 +9,27 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    MainWindow::setWindowFlag(Qt::WindowMaximizeButtonHint,false);
     cmd = new QProcess();
+    command = new QProcess();
     timer = new QTimer();
     update();
     connect(timer,&QTimer::timeout,this,&MainWindow::update);
     connect(ui->pb_showinfo, &QPushButton::clicked,this,&MainWindow::winLicence);
-    ui->le_name->isReadOnly();
-    //timer->start(1000);
-    //connect(ui->pb_showinfo,&QPushButton::clicked, this, MainWindow::storageInfo);
-    //connect(ui->te_input, &QTextEdit::,this, &MainWindow::storageInfo);
-    //moveCursor
-    //cpuCoresNum();
-    //storageInfo();
-    //installedSoftware_list();
-    //sysInfo();
-    //networkInfo();
-    //biosInfo();
-    //cpuInfo();
-    //ramInfo();
-    //gpuInfo();
-    //update();
-    //currentCPU_Usage();
-    //currentRAM_Usage();
-    //currentGPU_Usage();
-    //winLicence();
-    cpuCoresNum();
-    cpuSocket();
-    cpuThreadcount();
-    cpuID();
-    gpuDriverver();
-    gpuCHR();
-    gpuCVR();
-    gpuRefreshrate();
-    gpuMRR();
-    gpuDACT();
-    ramCapacity();
-    ramSpeed();
-    ramManufecturer();
-    ramVoltage();
-    ramPostion();
-    motherboardManuf();
-    motherboardProduct();
-    motherbordVersion();
-    motherboardSerialnum();
+    timer->start(1000);
+    currentGPU_Usage();
+    currentCPU_Usage();
+    currentRAM_Usage();
+    storageInfo();
+    installedSoftware_list();
+    networkInfo();
+    biosInfo();
+    sysInfo();
+    ramInfo();
+    CPU();
+    GPU();
+    Motherboard();
+    gpuInfo();
 }
 
 MainWindow::~MainWindow()
@@ -61,22 +39,44 @@ MainWindow::~MainWindow()
 
 void MainWindow::storageInfo()
 {
-    ui->le_name->setText("Name");
-    ui->le_systype->setText("System Type");
-    ui->le_size->setText("Storage size");
-    ui->le_asize->setText("Avaible size");
     QStorageInfo storage = QStorageInfo::root();
-    qDebug() << storage.rootPath();
     if (storage.isReadOnly())
-             qDebug() << "isReadOnly:" << storage.isReadOnly();
+        qDebug() << "isReadOnly:" << storage.isReadOnly();
+    ui->le_sname->setReadOnly(true);
+    ui->le_size->setReadOnly(true);
+    ui->le_asize->setReadOnly(true);
+    ui->le_systype->setReadOnly(true);
     ui->le_sname->setText(storage.rootPath());
-    ui->le_syst->setText(storage.fileSystemType());
-    ui->le_ssize->setText(QString::number(storage.bytesTotal()/1000000000)+"GB");
-    ui->le_assize->setText(QString::number(storage.bytesAvailable()/1000000000)+"GB");
-    qDebug() << "name:" << storage.name();
-    qDebug() << "fileSystemType:" << storage.fileSystemType();
-    qDebug() << "size:" << storage.bytesTotal()/1000000000  << "GB";
-    qDebug() << "availableSize:" << storage.bytesAvailable()/1000000000  << "GB";
+    ui->le_size->setText(QString::number(storage.bytesTotal()/1000000000)+"GB");
+    ui->le_asize->setText(QString::number(storage.bytesAvailable()/1000000000)+"GB");
+    ui->le_systype->setText(storage.fileSystemType());
+}
+
+void MainWindow::CPU()
+{
+    cpuInfo();
+    cpuCoresNum();
+    cpuSocket();
+    cpuThreadcount();
+    cpuID();
+
+}
+
+void MainWindow::GPU()
+{
+    gpuDriverver();
+    gpuRAM();
+    gpuCHR();
+    gpuCVR();
+    gpuRefreshrate();
+    gpuMRR();
+    gpuDACT();
+}
+
+void MainWindow::Motherboard()
+{
+    motherbordVersion();
+    motherboardSerialnum();
 }
 
 void MainWindow::installedSoftware_list()
@@ -107,17 +107,18 @@ void MainWindow::installedSoftware_list()
 
 void MainWindow::sysInfo()
 {
-    qDebug() << "CPU Architecture : " << QSysInfo::currentCpuArchitecture().toLocal8Bit().constData();
-    qDebug() << "Product Type : " << QSysInfo::prettyProductName().toLocal8Bit().constData();
-    qDebug() << "Kernel Type : " << QSysInfo::kernelType().toLocal8Bit().constData();
-    qDebug() << "Kernel Version : " << QSysInfo::kernelVersion().toLocal8Bit().constData();
-    qDebug() << "Machine ID : " << QSysInfo::machineHostName().toLocal8Bit().constData();
+    ui->le_cpuarch->setText(QSysInfo::currentCpuArchitecture().toLocal8Bit().constData());
+    ui->le_ptype->setText(QSysInfo::prettyProductName().toLocal8Bit().constData());
+    ui->le_kernelt->setText(QSysInfo::kernelType().toLocal8Bit().constData());
+    ui->le_kernelv->setText(QSysInfo::kernelVersion().toLocal8Bit().constData());
+    ui->le_machineid->setText(QSysInfo::machineHostName().toLocal8Bit().constData());
 }
 
 void MainWindow::networkInfo()
 {
-    qDebug() << "Connected Network Informations";
-
+    ui->le_interface->setReadOnly(true);
+    ui->le_ip->setReadOnly(true);
+    ui->le_MAC->setReadOnly(true);
     foreach(QNetworkInterface networkInterface, QNetworkInterface::allInterfaces())
     {
         if (networkInterface.flags().testFlag(QNetworkInterface::IsUp) && !networkInterface.flags().testFlag(QNetworkInterface::IsLoopBack))
@@ -125,9 +126,9 @@ void MainWindow::networkInfo()
             foreach (QNetworkAddressEntry entry, networkInterface.addressEntries())
             {
                 if ( entry.ip().toString().contains(".")){
-                    qDebug() << "Interface:"<< networkInterface.name().toLocal8Bit().constData() << " ";
-                    qDebug() << "IP:"<< entry.ip().toString().toLocal8Bit().constData() << " ";
-                    qDebug() << "MAC:"  << networkInterface.hardwareAddress().toLocal8Bit().constData();
+                    ui->le_interface->setText(networkInterface.name().toLocal8Bit().constData());
+                    ui->le_ip->setText(entry.ip().toString().toLocal8Bit().constData());
+                    ui->le_MAC->setText(networkInterface.hardwareAddress().toLocal8Bit().constData());
                 }
             }
         }
@@ -136,48 +137,46 @@ void MainWindow::networkInfo()
 
 void MainWindow::biosInfo()
 {
-    qDebug() << "System BIOS informations. ONLY FOR WINDOWS.";
     QSettings settings("HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS", QSettings::NativeFormat);
-    qDebug() << "Base Manufacturer : " << settings.value("BaseBoardManufacturer", "0").toString().toLocal8Bit().constData();
-    qDebug() << "Base Product : " << settings.value("BaseBoardProduct", "0").toString().toLocal8Bit().constData();
-    qDebug() << "BIOS Vendor : " << settings.value("BIOSVendor", "0").toString().toLocal8Bit().constData();
-    qDebug() << "BIOS Release Date : " << settings.value("BIOSReleaseDate", "0").toString().toLocal8Bit().constData();
-    qDebug() << "System Manufacturer : " << settings.value("SystemManufacturer", "0").toString().toLocal8Bit().constData();
-    qDebug() << "Product Name : " << settings.value("SystemProductName", "0").toString().toLocal8Bit().constData();
-    qDebug() << "System SKU : " << settings.value("SystemSKU", "0").toString().toLocal8Bit().constData();
+    ui->le_basemanuf->setText(settings.value("BaseBoardManufacturer", "0").toString().toLocal8Bit().constData());
+    ui->le_baseprod->setText(settings.value("BaseBoardProduct", "0").toString().toLocal8Bit().constData());
+    ui->le_biosv->setText(settings.value("BIOSVendor", "0").toString().toLocal8Bit().constData());
+    ui->le_biosdate->setText(settings.value("BIOSReleaseDate", "0").toString().toLocal8Bit().constData());
+    ui->le_sysymanuf->setText(settings.value("SystemManufacturer", "0").toString().toLocal8Bit().constData());
+    ui->le_prodname->setText(settings.value("SystemProductName", "0").toString().toLocal8Bit().constData());
+    ui->le_sysSKU->setText(settings.value("SystemSKU", "0").toString().toLocal8Bit().constData());
 }
 
 void MainWindow::cpuInfo()
 {
     QString system_output;
     QString test;
-    //system_output = system_output.remove(0,system_output.indexOf("\n")+1)
-    //                             .remove(system_output.indexOf("\r"),system_output.length());
-        if(QSysInfo::kernelType() == "winnt")
-        {
-            QStringList cpuname;
-            cpuname << "cpu" << "get" << "name";
-            cmd->start("wmic", cpuname);
-            cmd->waitForStarted();
-            cmd->waitForFinished();
-            system_output = cmd->readAllStandardOutput();
-            system_output = system_output.remove(0,system_output.indexOf("\n")+1)
-                                         .remove(system_output.indexOf("\r"),system_output.length());
-            qDebug() << "CPU : "  << system_output;
-}
+    if(QSysInfo::kernelType() == "winnt"){
+        QStringList cpuname;
+        cpuname << "cpu" << "get" << "name";
+        cmd->start("wmic", cpuname);
+        cmd->waitForStarted();
+        cmd->waitForFinished();
+        system_output = cmd->readAllStandardOutput();
+        system_output = system_output.remove(0,system_output.indexOf("\n")+1)
+                                     .remove(system_output.indexOf("\r"),system_output.length());
+        ui->le_name->setText(system_output);
+    }
 }
 
-//void MainWindow::ramInfo()
-//{
-    //alll
-//}
+void MainWindow::ramInfo()
+{
+    ramCapacity();
+    ramSpeed();
+    ramManufecturer();
+    ramVoltage();
+    ramPostion();
+}
 
 void MainWindow::gpuInfo()
 {
     QStringList info_GPU;
-    QStringList gpu_RAM;
     QString system_output;
-    QString test;
     QStringList gpuname;
     gpuname <<"PATH" << "Win32_videocontroller" << "get" << "VideoProcessor";
     cmd->start("wmic",gpuname);
@@ -186,33 +185,49 @@ void MainWindow::gpuInfo()
     system_output = cmd->readAllStandardOutput();
     system_output = system_output.remove(0,system_output.indexOf("\n")+1);
     info_GPU = system_output.split("\n");
-    foreach(QString item,info_GPU){
-        item = 0;
-        item = item+item;
+    for(int i = 0;i < info_GPU.length();i++){
+        info_GPU[i] = info_GPU[i].remove(info_GPU[i].indexOf("\r"),info_GPU.length());
+        if(info_GPU[i].compare("") == 0){
+            info_GPU.remove(i);
+            i--;
+        }
     }
-    qDebug() << "GPU : "  << info_GPU;
-
-    QStringList gpuRam;
-    gpuRam << "PATH" << "Win32_VideoController" << "get" << "AdapterRAM";
-    cmd->start("wmic",gpuRam);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    system_output = cmd->readAllStandardOutput();
-    qDebug() << "GPU RAM : "  << system_output;
+    ui->lw_name->addItems(info_GPU);
 }
 
+void MainWindow::gpuRAM()
+{
+    QString gpuram;
+    QStringList gpuRam_args;
+    gpuRam_args << "PATH" << "Win32_VideoController" << "get" << "AdapterRAM";
+    cmd->start("wmic",gpuRam_args);
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    gpuram = cmd->readAllStandardOutput();
+    gpuram = gpuram.remove(0,gpuram.indexOf("\n")+1).remove(gpuram.length()-7,7);
+    QStringList GPURAM = gpuram.split("\n");
+    for(int i = 0;i < GPURAM.length();i++){
+        GPURAM[i] = GPURAM[i].remove(" ");
+        double size = GPURAM[i].toDouble();
+        size /= qPow(2,30);
+        GPURAM[i] = QString::number(size) +" GB";
+    }
+    ui->lw_gpuram->addItems(GPURAM);
+}
 
 void MainWindow::update()
 {
-    //call everything
-    //storageInfo();
-   // sysInfo();
-    //networkInfo();
-    //biosInfo();
-    //cpuInfo();
-    //gpuInfo();
-    //currentCPU_Usage();
-    installedSoftware_list();
+    switch (ui->tabWidget->currentIndex()) {
+    case 0:
+        currentCPU_Usage();
+        break;
+    case 1:
+        currentGPU_Usage();
+        break;
+    case 2:
+        currentRAM_Usage();
+        break;
+    }
 }
 
 void MainWindow::currentRAM_Usage()
@@ -221,18 +236,18 @@ void MainWindow::currentRAM_Usage()
     QString script;
     QString path = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/RAM_usage_in_percentage.ps1";
     QFile file(path);
-     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-         return;
-
-     while (!file.atEnd()) {
-         script.append(file.readLine());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    while (!file.atEnd()) {
+        script.append(file.readLine());
     }
     cmd->start("powershell",script.split(' '));
     cmd->waitForStarted();
     cmd->waitForFinished();
     RAM = cmd->readAllStandardOutput();
     RAM = RAM.remove(0,RAM.indexOf(":")+2).remove(RAM.indexOf(","),RAM.length());
-    qDebug() << "test" << RAM;
+    ui->le_ramusage->setReadOnly(true);
+    ui->le_ramusage->setText(RAM+"%");
 }
 
 void MainWindow::currentGPU_Usage()
@@ -241,18 +256,18 @@ void MainWindow::currentGPU_Usage()
     QString script;
     QString path = "C:/Project/NG_2022_System_Manager_project/System_manager/Scripts_powershell/Total_GPU_usage_script.ps1";
     QFile file(path);
-     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-         return;
-
-     while (!file.atEnd()) {
-         script.append(file.readLine());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    while (!file.atEnd()) {
+        script.append(file.readLine());
     }
-     cmd->start("powershell",script.split(' '));
-     cmd->waitForStarted();
-     cmd->waitForFinished();
-     GPU = cmd->readAllStandardOutput();
-     GPU = GPU.remove(0,GPU.indexOf(":")+2).remove(GPU.indexOf("\r"),GPU.length());
-     qDebug() << "Test "<< GPU;
+    cmd->start("powershell",script.split(' '));
+    cmd->waitForStarted();
+    cmd->waitForFinished();
+    GPU = cmd->readAllStandardOutput();
+    GPU = GPU.remove(0,GPU.indexOf(":")+2).remove(GPU.indexOf("\r"),GPU.length());
+    ui->le_gpuusage->setReadOnly(true);
+    ui->le_gpuusage->setText(GPU);
 }
 
 void MainWindow::currentCPU_Usage()
@@ -264,7 +279,8 @@ void MainWindow::currentCPU_Usage()
     cmd->waitForFinished();
     CPU = cmd->readAllStandardOutput();
     CPU = CPU.remove(0,CPU.indexOf("\n")+1).remove(CPU.indexOf(" "),CPU.length());
-    qDebug() << "Current usage CPU" << CPU;
+    ui->le_usage->setReadOnly(true);
+    ui->le_usage->setText(CPU+"%");
 }
 
 void MainWindow::winLicence()
@@ -284,7 +300,8 @@ void MainWindow::cpuCoresNum()
     cmd->waitForFinished();
     cores = cmd->readAllStandardOutput();
     cores = cores.remove(0,cores.indexOf("\n")+1).remove(cores.indexOf(" "),cores.length());
-    qDebug() << cores;
+    ui->le_cores->setReadOnly(true);
+    ui->le_cores->setText(cores);
 }
 
 void MainWindow::cpuSocket()
@@ -296,7 +313,8 @@ void MainWindow::cpuSocket()
     cmd->waitForFinished();
     socket = cmd->readAllStandardOutput();
     socket = socket.remove(0,socket.indexOf("\n")+1).remove(socket.indexOf(" "),socket.length());
-    qDebug() << socket;
+    ui->le_socket->setReadOnly(true);
+    ui->le_socket->setText(socket);
 }
 
 void MainWindow::cpuThreadcount()
@@ -308,7 +326,8 @@ void MainWindow::cpuThreadcount()
     cmd->waitForFinished();
     thread = cmd->readAllStandardOutput();
     thread = thread.remove(0,thread.indexOf("\n")+1).remove(thread.indexOf(" "),thread.length());
-    qDebug() << thread;
+    ui->le_thread->setReadOnly(true);
+    ui->le_thread->setText(thread);
 }
 
 void MainWindow::cpuID()
@@ -320,7 +339,8 @@ void MainWindow::cpuID()
     cmd->waitForFinished();
     id = cmd->readAllStandardOutput();
     id = id.remove(0,id.indexOf("\n")+1).remove(id.indexOf(" "),id.length());
-    qDebug() << id;
+    ui->le_id->setReadOnly(true);
+    ui->le_id->setText(id);
 }
 
 void MainWindow::gpuDriverver()
@@ -331,7 +351,16 @@ void MainWindow::gpuDriverver()
     cmd->waitForStarted();
     cmd->waitForFinished();
     driver_ver = cmd->readAllStandardOutput();
-    qDebug() << driver_ver;
+    driver_ver = driver_ver.remove(0,driver_ver.indexOf("\n")).remove(driver_ver.length()-7,6);
+    QStringList versions = driver_ver.split("\n");
+    for(int i = 0;i < versions.length();i++){
+        versions[i] = versions[i].remove(versions[i].length()-1,versions[i].indexOf("\n"));
+        if(versions[i].compare("") == 0){
+            versions.remove(i);
+            i--;
+        }
+    }
+    ui->lw_version->addItems(versions);
 }
 
 void MainWindow::gpuCHR()
@@ -343,7 +372,8 @@ void MainWindow::gpuCHR()
     cmd->waitForFinished();
     CHR = cmd->readAllStandardOutput();
     CHR = CHR.remove(0,CHR.indexOf("\n")+1).remove(CHR.indexOf(" "),CHR.length());
-    qDebug() << CHR;
+    ui->le_horizontal->setReadOnly(true);
+    ui->le_horizontal->setText(CHR);
 }
 
 void MainWindow::gpuCVR()
@@ -355,153 +385,142 @@ void MainWindow::gpuCVR()
     cmd->waitForFinished();
     CVR = cmd->readAllStandardOutput();
     CVR = CVR.remove(0,CVR.indexOf("\n")+1).remove(CVR.indexOf(" "),CVR.length());
-    qDebug() << CVR;
+    ui->le_vertical->setReadOnly(true);
+    ui->le_vertical->setText(CVR);
 }
 
 void MainWindow::gpuRefreshrate()
 {
     QString rate;
     QStringList args = QString("PATH Win32_videocontroller get CurrentRefreshRate").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    rate = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    rate = command->readAllStandardOutput();
     rate = rate.remove(0,rate.indexOf("\n")+1).remove(rate.indexOf(" "),rate.length());
-    qDebug() << rate;
+    ui->le_refreashrate->setReadOnly(true);
+    ui->le_refreashrate->setText(rate);
 }
 
 void MainWindow::gpuMRR()
 {
     QString m_rate;
     QStringList args = QString("PATH Win32_videocontroller get MaxRefreshRate").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    m_rate = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    m_rate = command->readAllStandardOutput();
     m_rate = m_rate.remove(0,m_rate.indexOf("\n")+1).remove(m_rate.indexOf(" "),m_rate.length());
-    qDebug() << m_rate;
+    ui->le_maxrefreashrate_2->setReadOnly(true);
+    ui->le_maxrefreashrate_2->setText(m_rate);
 }
 
 void MainWindow::gpuDACT()
 {
     QString dact;
     QStringList args = QString("PATH Win32_videocontroller get AdapterDACType").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    dact = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    dact = command->readAllStandardOutput();
+    dact = dact.remove(0,dact.indexOf("\n")+1).remove(dact.length()-7,7);
     QStringList dac = dact.split('\n');
     for(int i = 0;i < dac.length();i++){
-        dac[i] = dac[i].remove(0,dac.indexOf("\n")+1).remove(dac.indexOf(" "),dac.length());
-        i++;
+        dac[i] = dac[i].remove(0,dac[i].indexOf("\n")+1).remove(dac[i].indexOf("\r"),dac[i].length());
     }
-    qDebug() << dac;
+    ui->lw_gpuType->addItems(dac);
 }
 
 void MainWindow::ramCapacity()
 {
     QString capacity;
+    double cap = 0;
     QStringList args = QString("MEMORYCHIP get Capacity").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    capacity = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    capacity = command->readAllStandardOutput();
     capacity = capacity.remove(0,capacity.indexOf("\n")+1).remove(capacity.indexOf(" "),capacity.length());
-    qDebug() << capacity;
+    cap = capacity.toDouble();
+    cap /= qPow(2,30);
+    ui->le_capacity->setReadOnly(true);
+    ui->le_capacity->setText(QString::number(cap)+"GB");
 }
 
 void MainWindow::ramSpeed()
 {
     QString speed;
     QStringList args = QString("MEMORYCHIP get Speed").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    speed = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    speed = command->readAllStandardOutput();
     speed = speed.remove(0,speed.indexOf("\n")+1).remove(speed.indexOf(" "),speed.length());
-    qDebug() << speed;
+    ui->le_speed->setReadOnly(true);
+    ui->le_speed->setText(speed);
 }
 
 void MainWindow::ramManufecturer()
 {
     QString manufacturer;
     QStringList args = QString("MEMORYCHIP get Manufacturer").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    manufacturer = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    manufacturer = command->readAllStandardOutput();
     manufacturer = manufacturer.remove(0,manufacturer.indexOf("\n")+1).remove(manufacturer.indexOf("\r"),manufacturer.length());
-    qDebug() << manufacturer;
+    ui->le_manufacturer->setReadOnly(true);
+    ui->le_manufacturer->setText(manufacturer);
 }
 
 void MainWindow::ramVoltage()
 {
     QString voltage;
     QStringList args = QString("MEMORYCHIP get MaxVoltage").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    voltage = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    voltage = command->readAllStandardOutput();
     voltage = voltage.remove(0,voltage.indexOf("\n")+1).remove(voltage.indexOf(" "),voltage.length());
-    qDebug() << voltage;
+    ui->le_voltage->setReadOnly(true);
+    ui->le_voltage->setText(voltage);
 }
 
 void MainWindow::ramPostion()
 {
     QString slot;
     QStringList args = QString("MEMORYCHIP get BankLabel").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    slot = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    slot = command->readAllStandardOutput();
     slot = slot.remove(0,slot.indexOf("\n")+1).remove(slot.indexOf("\r"),slot.length());
-    qDebug() << slot;
-}
-
-void MainWindow::motherboardManuf()
-{
-    QString manuf;
-    QStringList args = QString("baseboard get Manufacturer").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    manuf = cmd->readAllStandardOutput();
-    manuf = manuf.remove(0,manuf.indexOf("\n")+1).remove(manuf.indexOf(" "),manuf.length());
-    qDebug() << manuf;
-}
-
-void MainWindow::motherboardProduct()
-{
-    QString prod;
-    QStringList args = QString("baseboard get product").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    prod = cmd->readAllStandardOutput();
-    prod = prod.remove(0,prod.indexOf("\n")+1).remove(prod.indexOf(" "),prod.length());
-    qDebug() << prod;
+    ui->le_position->setReadOnly(true);
+    ui->le_position->setText(slot);
 }
 
 void MainWindow::motherbordVersion()
 {
     QString version;
     QStringList args = QString("baseboard get version").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    version = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    version = command->readAllStandardOutput();
     version = version.remove(0,version.indexOf("\n")+1).remove(version.indexOf(" "),version.length());
-    qDebug() << version;
+    ui->le_basever->setReadOnly(true);
+    ui->le_basever->setText(version);
 }
 
 void MainWindow::motherboardSerialnum()
 {
     QString serial_num;
     QStringList args = QString("baseboard get serialnumber").split(' ');
-    cmd->start("wmic",args);
-    cmd->waitForStarted();
-    cmd->waitForFinished();
-    serial_num = cmd->readAllStandardOutput();
+    command->start("wmic",args);
+    command->waitForStarted();
+    command->waitForFinished();
+    serial_num = command->readAllStandardOutput();
     serial_num = serial_num.remove(0,serial_num.indexOf("\n")+1).remove(serial_num.indexOf(" "),serial_num.length());
-    qDebug() << serial_num;
+    ui->le_basesernum->setReadOnly(true);
+    ui->le_basesernum->setText(serial_num);
 }

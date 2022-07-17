@@ -2,23 +2,42 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>730</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Parser</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/Icons/system-information-icon-20.jpg</normaloff>:/Icons/system-information-icon-20.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_7">
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="CPU_tab">
        <attribute name="title">
@@ -27,278 +46,970 @@
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>240</x>
-          <y>10</y>
-          <width>381</width>
-          <height>250</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLineEdit" name="le_sname"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_syst"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_ssize"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_assize"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_11"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_12"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>156</width>
-          <height>250</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLineEdit" name="le_name"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_systype"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_size"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_asize"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_6"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QPushButton" name="pb_showinfo">
-        <property name="geometry">
-         <rect>
           <x>40</x>
-          <y>370</y>
-          <width>93</width>
-          <height>29</height>
+          <y>40</y>
+          <width>591</width>
+          <height>228</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Show Info</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>32</x>
-          <y>290</y>
-          <width>111</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="L_name">
+             <property name="text">
+              <string>Name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_cpuarch">
+             <property name="text">
+              <string>CPU architecture</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_cores">
+             <property name="text">
+              <string>Cores number</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_threads">
+             <property name="text">
+              <string>Thread number</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_socket">
+             <property name="text">
+              <string>Socket</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_cpuid">
+             <property name="text">
+              <string>CPU ID</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_cpuusage">
+             <property name="text">
+              <string>Current usage</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="le_name"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_cpuarch">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_cores"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_thread"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_socket"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_id"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_usage"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="GPU_tab">
        <attribute name="title">
         <string>GPU</string>
        </attribute>
-       <widget class="QWidget" name="layoutWidget_3">
+       <layout class="QHBoxLayout" name="horizontalLayout_15">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="l_gpunames">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="lw_name">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QLabel" name="l_gpuram">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>GPU RAM</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="lw_gpuram">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="l_gputype">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>GPU Type</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="lw_gpuType">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="l_gpuver">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Driver version</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="lw_version">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="l_horres">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Horizontal resolution</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_horizontal"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QLabel" name="l_verres">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Vertical resolution</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_vertical"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="l_refreshrate">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Refreash rate</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_refreashrate"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QLabel" name="l_mrefreashrate">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Max refresh rate</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_maxrefreashrate_2"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLabel" name="l_gpuusage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Current usage</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_gpuusage"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="RAM_tab">
+       <attribute name="title">
+        <string>RAM</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>10</y>
-          <width>381</width>
-          <height>250</height>
+          <x>40</x>
+          <y>30</y>
+          <width>561</width>
+          <height>195</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLineEdit" name="le_sname_2"/>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="l_capacity">
+             <property name="text">
+              <string>Capacity</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_speed">
+             <property name="text">
+              <string>Speed</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_voltage">
+             <property name="text">
+              <string>Voltage</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_manuf">
+             <property name="text">
+              <string>Manufacturer</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_slot">
+             <property name="text">
+              <string>Position</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_ramusage">
+             <property name="text">
+              <string>Current usage</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLineEdit" name="le_syst_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_ssize_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_assize_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_13"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_14"/>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLineEdit" name="le_capacity"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_speed"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_voltage"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_manufacturer"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_position"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_ramusage"/>
+           </item>
+          </layout>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget_4">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>156</width>
-          <height>250</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QLineEdit" name="le_name_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_systype_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_size_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_asize_2"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_4"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_7"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QPushButton" name="pb_showinfo_2">
-        <property name="geometry">
-         <rect>
-          <x>50</x>
-          <y>370</y>
-          <width>93</width>
-          <height>29</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Show Info</string>
-        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="STORAGE_tab">
        <attribute name="title">
         <string>STORAGE</string>
        </attribute>
-       <widget class="QWidget" name="layoutWidget_5">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>10</y>
-          <width>381</width>
-          <height>250</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLineEdit" name="le_sname_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_syst_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_ssize_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_assize_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_15"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_16"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget_6">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>156</width>
-          <height>250</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <widget class="QLineEdit" name="le_name_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_systype_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_size_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="le_asize_3"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_5"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_8"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QPushButton" name="pb_showinfo_3">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>50</x>
-          <y>370</y>
-          <width>93</width>
-          <height>29</height>
+          <y>130</y>
+          <width>571</width>
+          <height>129</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Show Info</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="l_sname">
+             <property name="text">
+              <string>Name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_ssize">
+             <property name="text">
+              <string>Size</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_asize">
+             <property name="text">
+              <string>Avaible size</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_fsystype">
+             <property name="text">
+              <string>Filesystem type</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLineEdit" name="le_sname"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_size"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_asize"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="le_systype"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </widget>
-      <widget class="QWidget" name="RAM_tab">
+      <widget class="QWidget" name="SOFWARE_tab">
        <attribute name="title">
-        <string>RAM</string>
+        <string>SOFTWARE</string>
        </attribute>
-      </widget>
-      <widget class="QWidget" name="BasicInfo_tab">
-       <attribute name="title">
-        <string>BASIC INFO</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="USER_tab">
-       <attribute name="title">
-        <string>USER</string>
-       </attribute>
-       <widget class="QListWidget" name="lw_programs">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>561</width>
-          <height>371</height>
-         </rect>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_20">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QListWidget" name="lw_programs">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="NETWORK_tab">
        <attribute name="title">
         <string>NETWORK</string>
        </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>110</y>
+          <width>111</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <widget class="QLabel" name="l_interface">
+           <property name="text">
+            <string>Interface</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="l_ip">
+           <property name="text">
+            <string>IP</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="l_mac">
+           <property name="text">
+            <string>MAC</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>411</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QLineEdit" name="le_interface"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_ip"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_MAC"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="SYSTEM_tab">
+       <attribute name="title">
+        <string>SYSTEM</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="l_prodt">
+              <property name="text">
+               <string>Product Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="le_ptype">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="l_kernelt">
+              <property name="text">
+               <string>Kernel Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="le_kernelt">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="l_kernelv">
+              <property name="text">
+               <string>Kernel Version</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="le_kernelv">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="l_machid">
+              <property name="text">
+               <string>Machine ID</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="le_machineid">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QFormLayout" name="formLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="l_biosdate">
+              <property name="text">
+               <string>Bios Release Date</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="le_biosdate">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="l_sysman">
+              <property name="text">
+               <string>System Manufacturer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="le_sysymanuf">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="l_prodname">
+              <property name="text">
+               <string>Product Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="le_prodname">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="l_syssku">
+              <property name="text">
+               <string>System SKU</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="le_sysSKU">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="l_baseman">
+              <property name="text">
+               <string>Base Manufacturer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="le_basemanuf">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="l_baseprod">
+              <property name="text">
+               <string>Base Product</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="le_baseprod">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="l_biosvendor">
+              <property name="text">
+               <string>Bios Vendor</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="le_biosv">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QFormLayout" name="formLayout_4">
+              <item row="0" column="0">
+               <widget class="QLabel" name="l_basesernum">
+                <property name="text">
+                 <string>Base Serial Number</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="le_basesernum">
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="l_basever">
+                <property name="text">
+                 <string>Base Version</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="le_basever">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item>
+               <widget class="QLabel" name="l_winlicence">
+                <property name="text">
+                 <string>Windows Licence</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pb_showinfo">
+                <property name="text">
+                 <string>Show Info</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -306,6 +1017,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

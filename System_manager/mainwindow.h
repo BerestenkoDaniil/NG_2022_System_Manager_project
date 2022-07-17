@@ -25,6 +25,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void storageInfo();
+    void CPU();
+    void GPU();
+    void Motherboard();
     void installedSoftware_list();
     void sysInfo();
     void networkInfo();
@@ -32,6 +35,7 @@ public:
     void cpuInfo();
     void ramInfo();
     void gpuInfo();
+    void gpuRAM();
     void update();
     void currentCPU_Usage();
     void currentRAM_Usage();
@@ -64,6 +68,7 @@ private:
     QNetworkAddressEntry *network;
     QSettings *settings;
     QProcess *cmd;
+    QProcess *command;
     QTimer *timer;
 
 };
